@@ -19,10 +19,21 @@
         @endif
         @foreach($tokens as $token)
             <div>
+                @if(session('token-id') === $token->id)
+                    <div class="text-sm text-green-700">
+                        This token is only available until the page reloads. Make sure to copy it now.
+                    </div>
+                @endif
                 <div
-                    class="mt-1 block w-full text-sm text-center {{ $token->expires_at?->isPast() ? 'bg-red-100' : 'bg-gray-100' }} px-4 py-2 border border-gray-300 rounded-md shadow-sm"
+                    class="mt-1 block w-full text-sm text-center {{ session('token-id') === $token->id ? 'bg-green-100' : 'bg-gray-100' }} px-4 py-2 border border-gray-300 rounded-md shadow-sm"
                 >
-                    {{ $token->token }}
+                    @if(session('token-id') === $token->id)
+                        {{ session('new-token') }}
+                    @elseif ($token->last_used_at)
+                        Last used {{ $token->last_used_at?->longAbsoluteDiffForHumans() }} ago
+                    @else
+                        Not used yet
+                    @endif
                 </div>
                 <div class="flex justify-between gap-2">
                     <div>
