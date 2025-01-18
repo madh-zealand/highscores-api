@@ -1,0 +1,17 @@
+meta {
+  name: games [store]
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/games
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "My test game"
+  }
+}

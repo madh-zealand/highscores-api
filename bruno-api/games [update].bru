@@ -1,0 +1,17 @@
+meta {
+  name: games [update]
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{base_url}}/games/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "My edited game"
+  }
+}
