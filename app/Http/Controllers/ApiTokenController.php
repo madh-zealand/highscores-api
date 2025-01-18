@@ -14,7 +14,8 @@ class ApiTokenController extends Controller
      */
     public function create(Request $request): RedirectResponse
     {
-        $newToken = $request->user()->createToken('api-token');
+        $newToken = $request->user()
+            ->createToken($request->input('token_name'));
 
         return Redirect::route('profile.edit')
             ->with('status', 'api-token-generated')
@@ -29,6 +30,7 @@ class ApiTokenController extends Controller
     {
         $token->delete();
 
-        return Redirect::route('profile.edit')->with('status', 'api-token-deleted');
+        return Redirect::route('profile.edit')
+            ->with('status', 'api-token-deleted');
     }
 }
