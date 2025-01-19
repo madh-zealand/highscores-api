@@ -17,6 +17,7 @@ class HighscoreController extends Controller
     {
 
         // Make sure we have permission to view all
+        Gate::authorize('view', $game);
         Gate::authorize('viewAny', Highscore::class);
 
         // Get all the highscores for the game
