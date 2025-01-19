@@ -1,0 +1,18 @@
+meta {
+  name: highscores [store]
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{base_url}}/games/1/highscores
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "player": "Martin",
+    "score": 234
+  }
+}

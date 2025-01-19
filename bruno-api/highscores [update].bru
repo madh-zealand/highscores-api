@@ -1,0 +1,17 @@
+meta {
+  name: highscores [update]
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{base_url}}/games/1/highscores/7
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "player": "Someone"
+  }
+}
