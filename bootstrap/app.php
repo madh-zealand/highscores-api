@@ -18,9 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(
-            fn (Throwable $exception, Request $request) => ApiErrorFactory::create(
-                e: $exception,
-                request: $request,
-            ),
+            function (Throwable $exception, Request $request) {
+                if ($request->is('api/*')) {
+                    return ApiErrorFactory::create(
+                        e: $exception,
+                        request: $request,
+                    );
+                }
+            },
         );
     })->create();
