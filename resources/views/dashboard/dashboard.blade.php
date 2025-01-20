@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="flex-1 flex flex-col items-center">
                                         <div class="mt-1 text-gray-800 text-sm">
-                                            {{ $game->latestHighscore->created_at->longAbsoluteDiffForHumans() }}
+                                            {{ $game->latestHighscore?->created_at->longAbsoluteDiffForHumans() ?? '-' }}
                                         </div>
                                         <div class="mt-1 text-gray-500 text-xs">
                                             Since last
