@@ -2,6 +2,7 @@
 
 namespace App\Http\Errors;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -49,6 +50,13 @@ class ApiErrorFactory
                 additional: [
                     'errors' => $e->validator->errors()->toArray(),
                 ],
+            ),
+            $e instanceof AuthenticationException => new ApiError(
+                status: Response::HTTP_UNAUTHORIZED,
+                type: 'unauthenticated',
+                title: 'Unauthenticated',
+                detail: 'Your authentication credentials were incorrect.',
+                instance: $request->fullUrl(),
             ),
             default => new ApiError(
                 status: Response::HTTP_INTERNAL_SERVER_ERROR,

@@ -9,6 +9,16 @@ use Illuminate\View\View;
 
 class GameController extends Controller
 {
+    public function index(Request $request): View
+    {
+        return view('games/index', [
+            'user' => $request->user(),
+            'games' => $request->user()
+                ->games()
+                ->get(),
+        ]);
+    }
+
     public function show(Request $request, Game $game): View
     {
         return view('games.show', [
