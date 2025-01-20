@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Highscore;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -30,7 +31,8 @@ class GameController extends Controller
             'highscores' => $game->highscores()
                 ->orderByDesc('score')
                 ->limit(10)
-                ->get(),
+                ->get()
+                ->pad(10, new Highscore(['player' => '-', 'score' => '-'])),
             'fontSize' => $fontSize,
             'bgColor' => $bgColor,
             'textColor' => $textColor,
