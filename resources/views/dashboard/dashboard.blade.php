@@ -19,7 +19,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @foreach($games as $game)
                         <a
-                            href="#"
+                            href="{{ route('games.show', $game) }}"
                             class="w-full flex-auto overflow-hidden rounded-3xl bg-white hover:bg-gray-50 hover:-translate-y-1 shadow-lg ring-1 ring-gray-900/5"
                         >
                             <div class="px-6 py-3">
@@ -40,7 +40,7 @@
                                 <div class="px-6 py-2 flex divide-x">
                                     <div class="flex-1 flex flex-col items-center">
                                         <div class="mt-1 text-gray-800 text-sm">
-                                            #
+                                            {{ $game->highscores->count() }}
                                         </div>
                                         <div class="mt-1 text-gray-500 text-xs">
                                             Highscores
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="flex-1 flex flex-col items-center">
                                         <div class="mt-1 text-gray-800 text-sm">
-                                            #
+                                            {{ $game->latestHighscore->created_at->longAbsoluteDiffForHumans() }}
                                         </div>
                                         <div class="mt-1 text-gray-500 text-xs">
                                             Since last

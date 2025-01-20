@@ -67,7 +67,7 @@ class DevelopmentSeeder extends Seeder
         );
 
         $game->highscores()->saveMany(
-            Highscore::factory(10)->make(['game_id' => $game->id]),
+            Highscore::factory(random_int(10, 100))->make(['game_id' => $game->id]),
         );
 
         return $game;

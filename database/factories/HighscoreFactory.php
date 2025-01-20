@@ -16,7 +16,7 @@ class HighscoreFactory extends Factory
         return [
             'game_id' => Game::factory(),
             'player' => $this->faker->firstName(),
-            'score' => $this->faker->numberBetween(0, 1_000_000),
+            'score' => $this->faker->numberBetween(0, 100_000),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

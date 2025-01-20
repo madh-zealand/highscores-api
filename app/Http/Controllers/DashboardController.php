@@ -16,9 +16,11 @@ class DashboardController extends Controller
      */
     public function index(Request $request): View
     {
-        return view('dashboard', [
+        return view('dashboard/dashboard', [
             'user' => $request->user(),
-            'games' => $request->user()->games()->get(),
+            'games' => $request->user()
+                ->games()
+                ->get(),
         ]);
     }
 }
