@@ -1,66 +1,360 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Highscores API Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A guide to managing games and leaderboards via the Highscores API. This API allows developers to create and manage games, maintain player highscores, and integrate public leaderboards seamlessly into their applications.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Table of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Base URL](#base-url)
+- [Authentication](#authentication)
+- [Resources & Endpoints](#resources--endpoints)
+  - [Games](#games)
+      - [GET /games](#get-games)
+      - [POST /games](#post-games)
+      - [GET /games/{game_id}](#get-gamesgame_id)
+      - [PUT /games/{game_id}](#put-gamesgame_id)
+      - [DELETE /games/{game_id}](#delete-gamesgame_id)
+  - [Highscores](#highscores)
+      - [GET /games/{game_id}/highscores](#get-gamesgame_idhighscores)
+      - [POST /games/{game_id}/highscores](#post-gamesgame_idhighscores)
+      - [GET /games/{game_id}/highscores/{highscore_id}](#get-gamesgame_idhighscoreshighscore_id)
+      - [PUT /games/{game_id}/highscores/{highscore_id}](#delete-gamesgame_idhighscoreshighscore_id)
+      - [DELETE /games/{game_id}/highscores/{highscore_id}](#delete-gamesgame_idhighscoreshighscore_id)
+- [Validation Rules](#validation-rules)
+- [Error Responses](#error-responses)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Base URL
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The Base URL is the root endpoint for all API requests. It defines the starting point from which all resources and endpoints are accessed.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```
+https://highscores.martindilling.com/api/v1
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+When making a request, append the desired endpoint to this URL. For example, when writing:
+```
+/games
+```
 
-## Laravel Sponsors
+You need to prefix it with the Base URL:
+```
+https://highscores.martindilling.com/api/v1/games
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## Authentication
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+All endpoints require a **bearer token**. Include this token in every request’s `Authorization` header:
+```
+Authorization: Bearer YOUR_TOKEN_HERE
+```
 
-## Contributing
+- **Obtaining a token**: Sign up on the website and generate a token on your profile page.
+- **Token security**: The token will allow everyone to make calls to the API as if they were you, so only use the token to make calls from secure spaces, such as a PHP backend.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Resources & Endpoints
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Games
 
-## Security Vulnerabilities
+| Method | Endpoint               | Description                                     |
+|-------:|:-----------------------|:------------------------------------------------|
+| **GET**    | `/games`                | List all games owned by the authenticated user. |
+| **POST**   | `/games`                | Create a new game.                              |
+| **GET**    | `/games/{game_id}`      | Retrieve a specific game by ID.                 |
+| **PUT**    | `/games/{game_id}`      | Update an existing game’s title.                |
+| **DELETE** | `/games/{game_id}`      | Delete a game by ID.                            |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Examples
 
-## License
+##### **GET /games**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+  ```http
+  GET /v1/games
+  Authorization: Bearer YOUR_TOKEN
+  Accept: application/json
+  ```
+**Response (200)**
+  ```json
+  {
+    "data": [
+      {
+        "id": 1,
+        "title": "My first game",
+        "created_at": "2025-01-20T12:25:52.000000Z"
+      },
+      {
+        "id": 2,
+        "title": "Second game",
+        "created_at": "2025-01-20T12:25:52.000000Z"
+      }
+    ]
+  }
+  ```
+
+##### **POST /games**
+
+  ```http
+  POST /v1/games
+  Authorization: Bearer YOUR_TOKEN
+  Content-Type: application/json
+  Accept: application/json
+
+  {
+    "title": "ClickClack DEV"
+  }
+  ```
+  **Response (201)**
+  ```json
+  {
+    "data": {
+      "id": 3,
+      "title": "ClickClack DEV",
+      "created_at": "2025-01-24T10:08:21.000000Z"
+    }
+  }
+  ```
+
+##### **GET /games/{game_id}**
+
+  ```http
+  GET /v1/games/1
+  Authorization: Bearer YOUR_TOKEN
+  Accept: application/json
+  ```
+  **Response (200)**
+  ```json
+  {
+    "data": {
+      "id": 1,
+      "title": "ClickClack DEV",
+      "created_at": "2025-01-20T10:08:21.000000Z"
+    }
+  }
+  ```
+
+##### **PUT /games/{game_id}**
+
+  ```http
+  PUT /v1/games/1
+  Authorization: Bearer YOUR_TOKEN
+  Content-Type: application/json
+  Accept: application/json
+
+  {
+    "title": "My Updated Game Title"
+  }
+  ```
+  **Response (200)**
+  ```json
+  {
+    "data": {
+      "id": 1,
+      "title": "My Updated Game Title",
+      "created_at": "2025-01-20T10:08:21.000000Z"
+    }
+  }
+  ```
+
+##### **DELETE /games/{game_id}**
+
+  ```http
+  DELETE /v1/games/2
+  Authorization: Bearer YOUR_TOKEN
+  Accept: application/json
+  ```
+  **Response (204 or 200)**
+  ```json
+  []
+  ```
+
+### Highscores
+
+All highscore endpoints are nested under a specific game.
+
+| Method | Endpoint                                       | Description                                                 |
+|-------:|:-----------------------------------------------|:------------------------------------------------------------|
+| **GET**    | `/games/{game_id}/highscores`                | List all highscores for a game, sorted by score descending. |
+| **POST**   | `/games/{game_id}/highscores`                | Create a highscore.                                         |
+| **GET**    | `/games/{game_id}/highscores/{highscore_id}` | Retrieve a specific highscore by ID.                        |
+| **PUT**    | `/games/{game_id}/highscores/{highscore_id}` | Update a highscore’s fields.                                |
+| **DELETE** | `/games/{game_id}/highscores/{highscore_id}` | Delete a specific highscore by ID.                          |
+
+#### Examples
+
+##### **GET /games/{game_id}/highscores**
+
+  ```http
+  GET /v1/games/1/highscores
+  Authorization: Bearer YOUR_TOKEN
+  Accept: application/json
+  ```
+  **Response (200)**
+  ```json
+  {
+    "data": [
+      {
+        "id": 3,
+        "game_id": 1,
+        "player": "Mikkel",
+        "score": 348,
+        "created_at": "2025-01-20T10:09:46.000000Z"
+      },
+      {
+        "id": 2,
+        "game_id": 1,
+        "player": "Camilla",
+        "score": 117,
+        "created_at": "2025-01-20T10:09:35.000000Z"
+      }
+    ]
+  }
+  ```
+
+##### **POST /games/{game_id}/highscores**
+
+  ```http
+  POST /v1/games/1/highscores
+  Authorization: Bearer YOUR_TOKEN
+  Content-Type: application/json
+  Accept: application/json
+
+  {
+    "player": "Nadia",
+    "score": 24
+  }
+  ```
+  **Response (201)**
+  ```json
+  {
+    "data": {
+      "id": 4,
+      "game_id": 1,
+      "player": "Nadia",
+      "score": 24,
+      "created_at": "2025-01-20T10:09:59.000000Z"
+    }
+  }
+  ```
+
+##### **GET /games/{game_id}/highscores/{highscore_id}**
+
+  ```http
+  GET /v1/games/1/highscores/1
+  Authorization: Bearer YOUR_TOKEN
+  Accept: application/json
+  ```
+  **Response (200)**
+  ```json
+  {
+    "data": {
+      "id": 1,
+      "game_id": 1,
+      "player": "Martin",
+      "score": 100,
+      "created_at": "2025-01-20T10:09:13.000000Z"
+    }
+  }
+  ```
+
+##### **PUT /games/{game_id}/highscores/{highscore_id}**
+
+  ```http
+  PUT /v1/games/1/highscores/1
+  Authorization: Bearer YOUR_TOKEN
+  Content-Type: application/json
+  Accept: application/json
+
+  {
+    "score": 150
+  }
+  ```
+  **Response (200)**
+  ```json
+  {
+    "data": {
+      "id": 1,
+      "game_id": 1,
+      "player": "Martin",
+      "score": 150,
+      "created_at": "2025-01-20T10:09:13.000000Z"
+    }
+  }
+  ```
+
+##### **DELETE /games/{game_id}/highscores/{highscore_id}**
+
+  ```http
+  DELETE /v1/games/1/highscores/1
+  Authorization: Bearer YOUR_TOKEN
+  Accept: application/json
+  ```
+  **Response (204 or 200)**
+  ```json
+  []
+  ```
+
+---
+
+## Validation Rules
+
+- **Game**
+    - `title`: **required** (string)
+
+- **Highscore**
+    - `player`: **required** (string)
+    - `score`: **required**, numeric ≥ 0
+
+---
+
+## Error Responses
+
+Each error follow the same JSON structure.
+
+Examples:
+
+- **401 Unauthenticated**
+  ```json
+  {
+    "status": 401,
+    "type": "unauthenticated",
+    "title": "Unauthenticated",
+    "detail": "Your authentication credentials were incorrect.",
+    "instance": "https://highscores.martindilling.com/api/v1/games",
+    "timestamp": "2025-01-24T12:49:33+00:00"
+  }
+  ```
+- **404 Not Found**
+  ```json
+  {
+    "status": 404,
+    "type": "not-found",
+    "title": "Resource not found",
+    "detail": "The requested resource was not found.",
+    "instance": "https://highscores.martindilling.com/api/v1/games/2",
+    "timestamp": "2025-01-24T12:50:54+00:00"
+  }
+  ```
+- **422 Validation Error**
+  ```json
+  {
+    "status": 422,
+    "type": "validation-error",
+    "title": "Validation error",
+    "detail": "You have validation errors in the request.",
+    "instance": "https://highscores.martindilling.com/api/v1/games/1/highscores",
+    "timestamp": "2025-01-24T12:53:01+00:00",
+    "additional": {
+      "errors": {
+        "player": [
+          "The player field is required."
+        ]
+      }
+    }
+  }
+  ```
