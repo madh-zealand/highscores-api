@@ -15,7 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(FrameGuard::class);
+        $middleware->web(append: [
+            FrameGuard::class,
+        ]);
+        $middleware->api(append: [
+            FrameGuard::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(
