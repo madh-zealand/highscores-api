@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Models\Highscore;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class GameController extends Controller
@@ -29,24 +30,26 @@ class GameController extends Controller
         ]);
     }
 
-    public function embeddedHighscore(Request $request, Game $game): View
+    public function embeddedHighscore(Request $request, Game $game): Response
     {
         $fontSize = $request->query('fontSize', 100);
         $bgColor = $request->query('bgColor', '#ffffff');
         $textColor = $request->query('textColor', '#111827');
         $borderColor = $request->query('borderColor', '#e5e7eb');
 
-        return view('embedded.highscore.simple', [
-            'game' => $game,
-            'highscores' => $game->highscores()
-                ->orderByDesc('score')
-                ->limit(10)
-                ->get()
-                ->pad(10, new Highscore(['player' => '-', 'score' => '-'])),
-            'fontSize' => $fontSize,
-            'bgColor' => $bgColor,
-            'textColor' => $textColor,
-            'borderColor' => $borderColor,
-        ]);
+        return response()
+            ->view('embedded.highscore.simple', [
+                'game' => $game,
+                'highscores' => $game->highscores()
+                    ->orderByDesc('score')
+                    ->limit(10)
+                    ->get()
+                    ->pad(10, new Highscore(['player' => '-', 'score' => '-'])),
+                'fontSize' => $fontSize,
+                'bgColor' => $bgColor,
+                'textColor' => $textColor,
+                'borderColor' => $borderColor,
+            ])
+            ->header('x-frame-options', 'ALLOWALL');
     }
 }
