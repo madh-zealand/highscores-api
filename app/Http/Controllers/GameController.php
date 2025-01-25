@@ -49,7 +49,6 @@ class GameController extends Controller
                 'bgColor' => $bgColor,
                 'textColor' => $textColor,
                 'borderColor' => $borderColor,
-            ])
-            ->header('x-frame-options', 'ALLOWALL');
+            ]);
     }
 }

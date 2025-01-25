@@ -4,6 +4,7 @@ use App\Http\Controllers\ApiTokenController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Middleware\FrameGuard;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,4 +28,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Embed highscore tables
-Route::get('/games/{game}/embed', [GameController::class, 'embeddedHighscore'])->name('games.embed.simple');
+Route::get('/games/{game}/embed', [GameController::class, 'embeddedHighscore'])
+    ->withoutMiddleware(FrameGuard::class)
+    ->name('games.embed.simple');
