@@ -51,4 +51,20 @@ class GameController extends Controller
                 'borderColor' => $borderColor,
             ]);
     }
+
+    public function presentHighscore(Request $request, Game $game): Response
+    {
+        $fontSize = $request->query('fontSize', 100);
+
+        return response()
+            ->view('presentation.presentation', [
+                'game' => $game,
+                'highscores' => $game->highscores()
+                    ->orderByDesc('score')
+                    ->limit(20)
+                    ->get()
+                    ->pad(20, new Highscore(['player' => '-', 'score' => '-'])),
+                'fontSize' => $fontSize,
+            ]);
+    }
 }

@@ -31,3 +31,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/games/{game}/embed', [GameController::class, 'embeddedHighscore'])
     ->withoutMiddleware([FrameGuard::class])
     ->name('games.embed.simple');
+
+// Public highscore table presenting
+Route::get('/presentation/{game}', [GameController::class, 'presentHighscore'])
+    ->withoutMiddleware([FrameGuard::class])
+    ->name('presentation');
