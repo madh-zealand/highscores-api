@@ -42,4 +42,9 @@
             @endforeach
         </div>
     </div>
+    <script>
+        setInterval(() => {
+            window.location = window.location.href;
+        }, 5000);
+    </script>
 </x-blank-layout>
