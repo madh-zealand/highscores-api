@@ -36,3 +36,9 @@ Route::get('/games/{game}/embed', [GameController::class, 'embeddedHighscore'])
 Route::get('/presentation/{game}', [GameController::class, 'presentHighscore'])
     ->withoutMiddleware([FrameGuard::class])
     ->name('presentation');
+
+// Public highscore table presenting
+Route::get('/presentation/many/{games}', [GameController::class, 'presentManyHighscores'])
+    ->where('games', '^[0-9]+(,[0-9]+)*$')
+    ->withoutMiddleware([FrameGuard::class])
+    ->name('presentation.many');

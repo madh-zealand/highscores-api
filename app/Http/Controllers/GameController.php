@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Highscore;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
@@ -54,16 +55,36 @@ class GameController extends Controller
 
     public function presentHighscore(Request $request, Game $game): Response
     {
-        $fontSize = $request->query('fontSize', 100);
+        $fontSize = (int) $request->query('fontSize', 100);
+        $shouldHideControls = (bool) $request->query('hideControls', 0);
+        $refreshRate = (int) $request->query('refreshRate', 5000);
 
         return response()
             ->view('presentation.presentation', [
                 'game' => $game,
                 'highscores' => $game->highscores()
                     ->orderByDesc('score')
-                    ->limit(20)
+                    ->limit(10)
                     ->get()
-                    ->pad(20, new Highscore(['player' => '-', 'score' => '-'])),
+                    ->pad(10, new Highscore(['player' => '-', 'score' => '-'])),
+                'fontSize' => $fontSize,
+                'shouldHideControls' => $shouldHideControls,
+                'refreshRate' => $refreshRate,
+            ]);
+    }
+
+    /**
+     * @param EloquentCollection<Game> $games
+     */
+    public function presentManyHighscores(Request $request, EloquentCollection $games): Response
+    {
+        $fontSize = $request->query('fontSize', 100);
+
+//        $games->load('highscores');
+
+        return response()
+            ->view('presentation.presentation-many', [
+                'games' => $games,
                 'fontSize' => $fontSize,
             ]);
     }

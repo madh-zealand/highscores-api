@@ -12,27 +12,49 @@ class DevelopmentSeeder extends Seeder
 {
     public function run(): void
     {
-        $user1 = $this->createUser(
+        $user1 = $this->createUserWithGames(
             name: 'John Doe',
             email: 'john@example.com',
             password: 'password',
-        );
-        $game1 = $this->createGame(
-            user: $user1,
-            title: 'My first game',
-        );
-        $game2 = $this->createGame(
-            user: $user1,
+            games: 2,
         );
 
-        $user2 = $this->createUser(
+        $user2 = $this->createUserWithGames(
             name: 'Jane Doe',
             email: 'jane@example.com',
             password: 'password',
+            games: 1,
         );
-        $game3 = $this->createGame(
-            user: $user2,
+
+        $user3 = $this->createUserWithGames(
+            name: 'Jessica Doe',
+            email: 'jessica@example.com',
+            password: 'password',
+            games: 2,
         );
+
+        $user4 = $this->createUserWithGames(
+            name: 'Jolly Doe',
+            email: 'jolly@example.com',
+            password: 'password',
+            games: 3,
+        );
+    }
+
+    private function createUserWithGames(string $name, string $email, string $password, int $games): User
+    {
+        $user = $this->createUser(
+            name: $name,
+            email: $email,
+            password: $password,
+        );
+        foreach (range(1, $games) as $index) {
+            $game = $this->createGame(
+                user: $user,
+            );
+        }
+
+        return $user;
     }
 
     private function createUser(string $name, string $email, string $password): User
