@@ -57,7 +57,7 @@
                 <div
                     class="relative flex justify-center items-center text-right px-3 border-b border-violet-500 {{ $bgColor }}"
                 >
-                    @if($highscore->created_at->isAfter(now()->subMilliseconds($refreshRate)))
+                    @if($highscore->created_at?->isAfter(now()->subMilliseconds($refreshRate * 2)))
                         <span class="absolute top-0 -left-8 rotate-12 bg-green-600 border-green-900 text-green-100 text-xs font-bold px-2">
                             new
                         </span>

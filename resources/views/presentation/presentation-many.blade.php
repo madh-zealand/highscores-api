@@ -11,7 +11,7 @@
         @foreach($games as $game)
             <div class="flex-1 basis-1/4 h-1/2 border border-white border-opacity-30">
                 <iframe
-                    src="{{ route('presentation', $game) }}?hideControls=1&fontSize={{ $fontSize }}&refreshRate=10000"
+                    src="{{ route('presentation', $game) }}?hideControls=1&fontSize={{ $fontSize }}&refreshRate=15000"
                     width="100%"
                     height="100%"
                     class="block"
