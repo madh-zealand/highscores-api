@@ -8,8 +8,12 @@
         </a>
     </div>
     <div class="flex flex-wrap h-screen bg-gradient-to-t from-violet-400 to-fuchsia-300">
+        @php($pct = 100 / ceil(count($games) / 2))
         @foreach($games as $game)
-            <div class="flex-1 basis-1/4 h-1/2 border border-white border-opacity-30">
+            <div
+                class="flex-1 h-1/2 border border-white border-opacity-30"
+                style="flex-basis: {{ $pct }}%"
+            >
                 <iframe
                     src="{{ route('presentation', $game) }}?hideControls=1&fontSize={{ $fontSize }}&refreshRate=15000"
                     width="100%"
