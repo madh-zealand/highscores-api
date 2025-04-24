@@ -19,4 +19,10 @@
             </div>
         @endforeach
     </div>
+    <script>
+        // Full refresh every 2 minutes
+        setInterval(() => {
+            window.location = window.location.href;
+        }, 2 * 60 * 1000);
+    </script>
 </x-minimal-layout>
