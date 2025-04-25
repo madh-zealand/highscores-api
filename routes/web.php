@@ -42,3 +42,17 @@ Route::get('/presentation/many/{games}', [GameController::class, 'presentManyHig
     ->where('games', '^[0-9]+(,[0-9]+)*$')
     ->withoutMiddleware([FrameGuard::class])
     ->name('presentation.many');
+
+// Public highscore table presenting
+Route::get('/demo', [GameController::class, 'presentDemo'])
+    ->withoutMiddleware([FrameGuard::class])
+    ->name('demo');
+
+Route::get('/play/{slug}/{file}', function ($slug, $file) {
+    $path = public_path("play/{$slug}/{$file}");
+    if (!file_exists($path)) abort(404);
+
+    ob_start();
+    include $path;
+    return response(ob_get_clean());
+});

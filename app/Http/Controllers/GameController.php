@@ -80,12 +80,63 @@ class GameController extends Controller
     {
         $fontSize = $request->query('fontSize', 100);
 
-//        $games->load('highscores');
-
         return response()
             ->view('presentation.presentation-many', [
                 'games' => $games,
                 'fontSize' => $fontSize,
+            ]);
+    }
+
+    public function presentDemo(Request $request): Response
+    {
+        $games = [
+            [
+                'name' => 'Dodge Game',
+                'author' => 'Daniel H.',
+                'url' => "https://dodge-game.3sem-f2025.codeship.dk/",
+                'highscoreId' => 75,
+            ],
+            [
+                'name' => 'Penguin',
+                'author' => 'Kateryna',
+                'url' => "https://penguin.3sem-f2025.codeship.dk/",
+                'highscoreId' => 76,
+            ],
+            [
+                'name' => 'KeyMaster',
+                'author' => 'André',
+                'url' => "https://key-master.3sem-f2025.codeship.dk/",
+                'highscoreId' => 77,
+            ],
+            [
+                'name' => 'Diamond Catcher',
+                'author' => 'Daniel T.',
+                'url' => "https://diamond-catcher.3sem-f2025.codeship.dk/",
+                'highscoreId' => 78,
+            ],
+            [
+                'name' => 'Spirit Guide',
+                'author' => 'Amar og Stephanie',
+                'url' => "https://spirit-guide.3sem-f2025.codeship.dk/",
+                'highscoreId' => 79,
+            ],
+            [
+                'name' => 'Tower Defense',
+                'author' => 'Alexander',
+                'url' => "https://tower-defence.3sem-f2025.codeship.dk/",
+                'highscoreId' => 80,
+            ],
+            [
+                'name' => 'Vibe Volley',
+                'author' => 'Yaqub',
+                'url' => "https://vibe-volley.3sem-f2025.codeship.dk/",
+                'highscoreId' => 81,
+            ],
+        ];
+
+        return response()
+            ->view('demo.demo', [
+                'games' => $games,
             ]);
     }
 }
